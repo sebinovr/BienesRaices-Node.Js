@@ -23,34 +23,6 @@ const crear = async (req,res)=>{
         precios,
         datos: {}
     })
-
-    //crear registro
-    const { titulo, descripcion, categoria: categoriaId, precio: precioId, habitaciones, estacionamiento, wc, calle, lat, lng } = req.body
-    const { id: usuarioId } = req.usuario
-
-    try {
-        const propiedadGuardada = await Propiedad.create({
-            titulo,
-            descripcion,
-            habitaciones,
-            estacionamiento,
-            wc,
-            calle,
-            lat,
-            lng,
-            categoriaId,
-            precioId,
-            usuarioId,
-            imagen: 'imagen'
-        })
-        
-        const { id } = propiedadGuardada
-        res.redirect(`/propiedades/agregar-imagen/${id}`)
-
-    } catch (error) {
-        console.log(error)
-    }
-    
 }
 
 const guardar = async (req, res)=>{
@@ -74,6 +46,36 @@ const guardar = async (req, res)=>{
             //autocompletar
             datos: req.body
         })
+    }
+
+    //crear registro
+    const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioId, categoria: categoriaId } = req.body
+    const { id:usuarioId } = req.usuario
+    
+    console.log(req.body)
+    console.log(req.usuario)
+    
+    try {
+        const propiedadGuardada = await Propiedad.create({
+            titulo,
+            descripcion,
+            habitaciones,
+            estacionamiento,
+            wc,
+            calle,
+            lat,
+            lng,
+            categoriaId,
+            precioId,
+            usuarioId,
+            imagen:''
+        })
+            
+        const { id } = propiedadGuardada
+        res.redirect(`/propiedades/agregar-imagen/${id}`)
+    
+    } catch (error) {
+        console.log(error)
     }
 }
 

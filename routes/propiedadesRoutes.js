@@ -7,7 +7,8 @@ const router = express.Router()
 router.get('/mis-propiedades', protegerRuta, admin)
 router.get('/propiedades/crear', protegerRuta, crear)
 
-router.post('/propiedades/crear', protegerRuta, 
+router.post('/propiedades/crear', 
+    protegerRuta, 
     body('titulo').notEmpty().withMessage('El titulo del Anuncio es Obligatorio'),
     body('descripcion').notEmpty()
         .withMessage('La descripcion del Anuncio es Obligatoria')
@@ -18,7 +19,6 @@ router.post('/propiedades/crear', protegerRuta,
     body('estacionamiento').isNumeric().withMessage("Selecciona numero de estacionamientos"),
     body('wc').isNumeric().withMessage("Selecciona numero de banos"),
     body('lat').notEmpty().withMessage("Ubica la propiedad en el mapa"),
-
     guardar
 )
 
