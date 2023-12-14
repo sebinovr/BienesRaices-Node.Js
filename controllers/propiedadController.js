@@ -3,8 +3,7 @@ import { Precio, Categoria, Propiedad } from '../models/index.js'
 
 const admin = (req, res) =>{
     res.render('propiedades/admin',{
-        pagina: 'Mis propiedades',
-        barra:true
+        pagina: 'Mis propiedades'
     })
 }
 
@@ -17,7 +16,6 @@ const crear = async (req,res)=>{
 
     res.render('propiedades/crear',{
         pagina: 'Crear propiedad',
-        barra:true,
         csrfToken: req.csrfToken(),
         categorias,
         precios,
@@ -38,7 +36,6 @@ const guardar = async (req, res)=>{
 
         return res.render('propiedades/crear',{
             pagina: 'Crear propiedad',
-            barra:true,
             csrfToken: req.csrfToken(),
             categorias,
             precios,
@@ -79,8 +76,36 @@ const guardar = async (req, res)=>{
     }
 }
 
+const agregarImagen = async (req,res)=>{
+
+    const { id } = req.params
+
+    //Validar que propiedad exista 
+    const propiedad = await Propiedad.findByPk(id)
+    if(!propiedad){
+        res.redirect('/mis-propiedades')
+    }
+
+    //Validar que propiedad NO este publicada
+    if(propiedad.publicado){
+        return res.redirect('/mis-propiedades')
+    }
+
+    //Validar que propiedad pertenece a quien esta en la pagina
+    if(propiedad.usuarioId.toString() !== req.usuario.id.toString()){
+        return res.redirect('/mis-propiedades')
+    }
+
+    res.render('propiedades/agregar-imagen', {
+        pagina: 'Agregar Imagenes',
+        csrfToken: req.csrfToken(),
+        datos: {}
+    })
+}
+
 export {
     admin,
     crear,
-    guardar 
+    guardar,
+    agregarImagen
 }

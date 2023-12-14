@@ -12,7 +12,6 @@
     "dev": "concurrently \"npm run css\" \"npm run js\" ",
     "db:importar": "node ./seed/seeder.js -i ",
     "db:eliminar": "node ./seed/seeder.js -e "
-
   },
   "author": "sebastian venegas",
   "license": "ISC",
@@ -21,6 +20,7 @@
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
     "dotenv": "^16.3.1",
+    "dropzone": "^5.9.3",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
