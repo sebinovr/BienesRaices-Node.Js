@@ -104,29 +104,31 @@ const agregarImagen = async (req,res)=>{
 }
 
 const almacenarImagen = async (req, res, next) => {
-    const { id } = req.params
 
-    //Validar que propiedad exista 
+    const {id} = req.params
+
+    // Validar que la propiedad exista
     const propiedad = await Propiedad.findByPk(id)
-
-    if(!propiedad){
-        res.redirect('/mis-propiedades')
-    }
-
-    //Validar que propiedad NO este publicada
-    if(propiedad.publicado){
+    if(!propiedad) {
         return res.redirect('/mis-propiedades')
     }
 
-    //Validar que propiedad pertenece a quien esta en la pagina
-    if(propiedad.usuarioId.toString() !== req.usuario.id.toString()){
+    // Validar que la propiedad no este publicada
+    if(propiedad.publicado) {
+        return res.redirect('/mis-propiedades')
+    }
+
+    // Validar que la propiedad pertenece a quien visita esta página
+    if( req.usuario.id.toString() !== propiedad.usuarioId.toString() ) {
         return res.redirect('/mis-propiedades')
     }
 
     try {
-        //almacenar imagen y publicar propiedad
+        // console.log(req.file)
+
+        // Almacenar la imagen y publicar propiedad
         propiedad.imagen = req.file.filename
-        propiedad.publicado = 1 
+        propiedad.publicado = 1
 
         await propiedad.save()
 

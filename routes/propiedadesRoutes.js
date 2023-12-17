@@ -24,9 +24,10 @@ router.post('/propiedades/crear',
 )
 
 router.get('/propiedades/agregar-imagen/:id', protegerRuta, agregarImagen)
-router.post('/propiedades/agregar-imagen/:id', 
+
+router.post('/propiedades/agregar-imagen/:id',
     protegerRuta,
-    upload.single('imagen'), 
+    upload.single('imagen'),
     almacenarImagen
 )
 
