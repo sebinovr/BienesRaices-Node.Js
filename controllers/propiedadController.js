@@ -54,8 +54,8 @@ const admin = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-    
 }
+
 
 const crear = async (req,res)=>{
     //Consultar modelo de Precio y Categorias
