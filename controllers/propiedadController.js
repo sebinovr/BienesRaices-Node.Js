@@ -1,7 +1,7 @@
 import { unlink } from 'node:fs/promises'
 import { validationResult } from 'express-validator' 
-import { Precio, Categoria, Propiedad, Mensaje } from '../models/index.js'
-import { esVendedor } from '../helpers/index.js'
+import { Precio, Categoria, Propiedad, Mensaje, Usuario } from '../models/index.js'
+import { esVendedor, formatearFecha } from '../helpers/index.js'
 
 
 const admin = async (req, res) => {
@@ -33,6 +33,7 @@ const admin = async (req, res) => {
                 include: [
                     { model: Categoria, as: 'categoria' },
                     { model: Precio, as: 'precio' },
+                    { model: Mensaje, as: 'mensajes'}
                 ],
             }),
             Propiedad.count({
@@ -248,6 +249,8 @@ const guardarCambios = async (req, res) => {
 
     //validar que propiedad exista
     const propiedad = await Propiedad.findByPk( id )
+
+
     if(!propiedad){
         return res.redirect('/mis-propiedades')
     }
@@ -389,6 +392,40 @@ const enviarMensaje = async (req, res) => {
     res.redirect('/')
 }
 
+//Leer mensajes recibidos
+
+const verMensajes = async (req, res)=>{
+
+    const { id } = req.params
+
+    //validar que propiedad exista
+    const propiedad = await Propiedad.findByPk( id, {
+        include: [
+            { model: Mensaje, as: 'mensajes',
+                include: [
+                    { model: Usuario.scope('eliminarPassword'), as: 'usuario' }
+                ]
+            }
+        ]
+    })
+
+    if(!propiedad){
+        return res.redirect('/mis-propiedades')
+    }
+
+    //revisar que quien visita la URL, es quien creo la propiedad
+    if(req.usuario.id.toString()!== propiedad.usuarioId.toString()) {
+        return res.redirect('/mis-propiedades')
+    }
+
+
+    res.render('propiedades/mensajes',{
+        pagina: 'Mensajes',
+        mensajes: propiedad.mensajes,
+        formatearFecha
+    })
+}
+
 
 export {
     admin,
@@ -400,5 +437,6 @@ export {
     guardarCambios,
     eliminar,
     mostrarPropiedad,
-    enviarMensaje
+    enviarMensaje,
+    verMensajes
 }
