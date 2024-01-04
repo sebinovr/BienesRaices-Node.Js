@@ -605,11 +605,11 @@ video {
 .max-w-4xl {
   max-width: 56rem;
 }
-.max-w-md {
-  max-width: 28rem;
-}
 .max-w-6xl {
   max-width: 72rem;
+}
+.max-w-md {
+  max-width: 28rem;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -693,11 +693,11 @@ video {
 .border-2 {
   border-width: 2px;
 }
-.border-t {
-  border-top-width: 1px;
-}
 .border-b {
   border-bottom-width: 1px;
+}
+.border-t {
+  border-top-width: 1px;
 }
 .border-dashed {
   border-style: dashed;
@@ -1136,6 +1136,13 @@ video {
   }
 
   .lg\:flex-row {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1536px) {
+
+  .\32xl\:flex-row {
     flex-direction: row;
   }
 }
