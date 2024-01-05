@@ -277,8 +277,12 @@ const nuevoPassword = async (req, res)=>{
         mensaje: 'Se modificado el Password Correctamente'
     })
 
-
 }
+
+const cerrarSesion = async (req, res) =>{
+    return res.clearCookie('_token').status(200).redirect('/auth/login')
+}
+
 export {
     formularioLogin,
     autenticar,
@@ -288,5 +292,6 @@ export {
     confirmar,
     resetPassword,
     comprobarToken,
-    nuevoPassword 
+    nuevoPassword,
+    cerrarSesion 
 }

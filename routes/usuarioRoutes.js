@@ -8,7 +8,8 @@ import {
     formularioOlvidePassword,
     resetPassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    cerrarSesion
 } from "../controllers/usuarioController.js"
 
 //Crear el router
@@ -17,6 +18,9 @@ const router = express.Router()
 //Routing 
 router.get("/login", formularioLogin )
 router.post("/login", autenticar)
+
+//cerrar sesion 
+router.post('/cerrar-sesion', cerrarSesion )
 
 router.get('/registro', formularioRegistro)
 router.post('/registro', registrar)
